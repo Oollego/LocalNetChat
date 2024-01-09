@@ -8,6 +8,8 @@ namespace UdpChat.Data
 {
     enum MethodKey
     {
+        Message,
+        MessageConfirm
 
     }
 }

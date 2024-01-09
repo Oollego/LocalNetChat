@@ -45,7 +45,7 @@ namespace UdpChat.Models
         }
 
 
-        public ObservableCollection<Message>? Messages { get; set; }
+        public ObservableCollection<Message> Messages { get; set; } = new ObservableCollection<Message>();
 
         void INotifyPropertyChanged([CallerMemberName] string? propertyName = null)
         {

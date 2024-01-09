@@ -10,9 +10,9 @@ namespace UdpChat.View.Windows
     /// </summary>
     public partial class AddContactWindow : Window
     {
-        public string PersonName { get; set; }
-        public string PersonSurname { get; set; }
-        public IPAddress PersonIpAddress { get; set; }
+        public string PersonName { get; set; } = null!;
+        public string PersonSurname { get; set; } = null!;
+        public IPAddress PersonIpAddress { get; set; } = null!;
         public bool IsCancel { get; private set; }
         public AddContactWindow()
         {

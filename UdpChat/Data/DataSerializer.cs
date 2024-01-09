@@ -7,8 +7,9 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows;
 using UdpChat.Models;
-
+using UdpChat.Models.MessageModels;
 
 namespace UdpChat.Data
 {
@@ -32,13 +33,32 @@ namespace UdpChat.Data
 
         //}
 
-        public static string SerializeMessage(Message message)
+        public static IMessage DeserializeMessage(string message)
         {
-            string serializedMessage = JsonSerializer.Serialize(message);
+            IMessage result;
+
+            if (message.First() == 's')
+            {
+                message = message.Skip(1).ToString() ?? string.Empty;
+
+                result = DeserializeServiceMessage(message);
+            }
+            else
+            {
+                result = DeserializeMainMessage(message);
+            }
+
+            return result;
+        }
+
+
+        public static string SerializeMainMessage(Message message)
+        {
+            string serializedMessage = JsonSerializer.Serialize<Message>(message);
             return serializedMessage;
         }
 
-        public static Message DeserializeMassage(string message)
+        public static Message DeserializeMainMessage(string message)
         {
             
             Message? data = JsonSerializer.Deserialize<Message>(message);
@@ -51,23 +71,30 @@ namespace UdpChat.Data
             return data;
         }
 
-        public static string SerializeServiceMessage(ServiceMessage message)
-        {
-            return JsonSerializer.Serialize(message);
-        }
-
-        public static ServiceMessage DeserializeServiceMassage(string message)
+        public static ServMessage DeserializeServiceMessage(string message)
         {
 
-            ServiceMessage? data = JsonSerializer.Deserialize<ServiceMessage>(message);
+            ServMessage? data = JsonSerializer.Deserialize<ServMessage>(message);
 
             if (data == null)
             {
-                data = new ServiceMessage();
+                data = new ServMessage();
             }
 
             return data;
         }
+
+        public static string SerializeServiceMessageAsync(ServMessage message)
+        {
+            //string serializedMessage = null!;
+
+            string? serializedMessage  = JsonSerializer.Serialize<ServMessage>(message);
+          
+            
+            return serializedMessage;
+        }
+
+       
 
 
     }

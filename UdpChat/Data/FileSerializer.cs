@@ -17,7 +17,7 @@ namespace UdpChat.Data
 
                 foreach (Person person in persons)
                 {
-
+                    writer.Write(person.Id);
                     writer.Write(person.Name);
                     writer.Write(person.Surname);
                     writer.Write(person.IpAddress.ToString());
@@ -28,7 +28,7 @@ namespace UdpChat.Data
 
                         foreach (Message message in person.Messages)
                         {
-                            string messageStr = DataSerializer.SerializeMessage(message);
+                            string messageStr = DataSerializer.SerializeMainMessage(message);
                             writer.Write(messageStr);
                         }
                     }
@@ -50,7 +50,7 @@ namespace UdpChat.Data
                 { 
 
                     Person person = new Person();
-
+                    person.Id = reader.ReadInt32();
                     person.Name = reader.ReadString();
                     person.Surname = reader.ReadString();
                     person.IpAddress = IPAddress.Parse(reader.ReadString());
@@ -63,7 +63,7 @@ namespace UdpChat.Data
                     {
                         string messageStr = reader.ReadString();
 
-                        person.Messages.Add(DataSerializer.DeserializeMassage(messageStr));
+                        person.Messages.Add(DataSerializer.DeserializeMainMessage(messageStr));
                     }
 
                     persons.Add(person);

@@ -11,21 +11,25 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using UdpChat.Models;
-using UdpChat.ViewModels;
 
 namespace UdpChat.View.Windows
 {
     /// <summary>
-    /// Interaction logic for ContactsEditorWindow.xaml
+    /// Interaction logic for SettingsWindow.xaml
     /// </summary>
-    public partial class ContactsEditorWindow : Window
+    public partial class SettingsWindow : Window
     {
-        public ContactsEditorWindow()
+        public bool IsSubmited { get; private set; } = false;
+        public SettingsWindow()
         {
             InitializeComponent();
         }
 
-      
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+            IsSubmited = true;
+
+        }
     }
 }

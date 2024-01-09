@@ -7,9 +7,9 @@
         xmlns:vm="clr-namespace:UdpChat.ViewModels"
         mc:Ignorable="d"
         Title="SubmitEditorWindow" Height="150" Width="300" WindowStyle="None">
-    <Window.DataContext>
+    <!--<Window.DataContext>
         <vm:MainWindowViewModel/>
-    </Window.DataContext>
+    </Window.DataContext>-->
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition/>

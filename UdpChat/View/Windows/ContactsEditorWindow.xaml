@@ -8,9 +8,9 @@
         xmlns:vm="clr-namespace:UdpChat.ViewModels"
         mc:Ignorable="d"
         Title="Contacts" WindowStyle="None" Height="550" Width="400" MaxHeight="550" MaxWidth="400" MinHeight="550" MinWidth="400">
-    <Window.DataContext>
+    <!--<Window.DataContext>
         <vm:MainWindowViewModel/>
-    </Window.DataContext>
+    </Window.DataContext>-->
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="50"/>

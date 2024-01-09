@@ -9,14 +9,19 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:mod="clr-namespace:UdpChat.Models"
         xmlns:local="clr-namespace:UdpChat"
+        DataContext="{Binding MainWindowViewModel, Source={StaticResource Locator}}"
         mc:Ignorable="d"
         Title=""  Height="600" Width="1000" AutomationProperties.HelpText="Search">
-    <Window.DataContext>
+    <!--<Window.DataContext>
         <vm:MainWindowViewModel/>
-    </Window.DataContext>
+    </Window.DataContext>-->
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="Closing">
             <i:InvokeCommandAction Command="{Binding CloseWindowCommand}"/>
+           
+        </i:EventTrigger>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding OpenWindowCommand}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
     <Grid>
@@ -32,7 +37,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0" Background="#FF293a4c"></Grid>
-            <StackPanel Grid.Row="1" Background="#FF293a4c">
+            <StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="0"  Background="#FF293a4c">
                 <StackPanel.Resources>
                     <ResourceDictionary>
                         <ResourceDictionary.MergedDictionaries>
@@ -40,6 +45,9 @@
                         </ResourceDictionary.MergedDictionaries>
                     </ResourceDictionary>
                 </StackPanel.Resources>
+                <Button Style ="{StaticResource ColumnButton}" Height="40" Width="40" Margin="0,5,0,0"  Command="{Binding OpenMainSettingsCommand}">
+                    <iconPacks:PackIconBootstrapIcons Kind="Gear" Width="30" Height="30" Foreground="#FF5eb5f7"/>
+                </Button>
                 <Button Style ="{StaticResource ColumnButton}" Height="40" Width="40" Margin="0,5,0,0"  Command="{Binding OpenContactEditorCommand}">
                     <iconPacks:PackIconFontAwesome Kind="AddressBookRegular" Width="30" Height="30" Foreground="#FF5eb5f7"/>
                 </Button>
@@ -115,12 +123,12 @@
                         </Button>
                      </Grid>
                     <Grid DockPanel.Dock="Right">
-                        <Button Style ="{StaticResource MessageBoxButton}" VerticalAlignment="Bottom"  Width="40" Height="40" Margin="0,0,5,0"  >
+                        <Button Style ="{StaticResource MessageBoxButton}" VerticalAlignment="Bottom"  Width="40" Height="40" Margin="0,0,5,0"  Command="{Binding SendMessageCommand}">
                             <iconPacks:PackIconEntypo Kind="PaperPlane" Width="25" Height="25" Foreground="Gray"/>
                         </Button>
                     </Grid>
                     <Grid VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                        <TextBox  TextWrapping="Wrap" HorizontalAlignment="Stretch" VerticalAlignment="Center"  AutomationProperties.HelpText="Write message">
+                        <TextBox Text="{Binding SendMessageText, Mode=TwoWay}" TextWrapping="Wrap" HorizontalAlignment="Stretch" VerticalAlignment="Center"  AutomationProperties.HelpText="Write message">
                             <TextBox.Template>
                                 <ControlTemplate>
                                     <Border Padding="2" BorderThickness="1" BorderBrush="White" Background="White">
@@ -144,15 +152,15 @@
                 <ListBox  ItemsSource="{Binding SelectedPerson.Messages}" 
                               HorizontalContentAlignment="Stretch" 
                               ItemTemplate="{StaticResource ListBoxMessages}" 
-                              Foreground="#FF8E9E18"
-                              VirtualizingPanel.IsContainerVirtualizable="True"
+                              Foreground="#FF8E9E18" >
+                    <!--VirtualizingPanel.IsContainerVirtualizable="True"
                               VirtualizingPanel.IsVirtualizing="True"
-                              VirtualizingPanel.VirtualizationMode="Recycling">
-                    <ListBox.ItemsPanel>
+                              VirtualizingPanel.VirtualizationMode="Recycling">-->
+                    <!--<ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <VirtualizingStackPanel/>
                         </ItemsPanelTemplate>
-                    </ListBox.ItemsPanel>
+                    </ListBox.ItemsPanel>-->
                     <ListBox.Background>
                         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                             <GradientStop Color="#FFBACC7B"/>

@@ -9,9 +9,9 @@
         Title="ContactAditor" Height="150" Width="300" WindowStyle="None" >
    
     <Grid>
-        <Grid.DataContext>
+        <!--<Grid.DataContext>
             <vm:MainWindowViewModel/>
-        </Grid.DataContext>
+        </Grid.DataContext>-->
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="40"/>
