@@ -17,7 +17,7 @@ namespace UdpChat.Models
     internal class Person: INotifyPropertyChanged
     {
 
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         string _name = null!;
         public string Name
@@ -45,7 +45,7 @@ namespace UdpChat.Models
         }
 
 
-        public ObservableCollection<Message> Messages { get; set; } = new ObservableCollection<Message>();
+        public ObservableCollection<Message> Messages { get; set; } = new ();
 
         void INotifyPropertyChanged([CallerMemberName] string? propertyName = null)
         {

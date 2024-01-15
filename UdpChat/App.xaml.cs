@@ -5,6 +5,11 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using UdpChat.ViewModels;
+using UdpChat.Data.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System.Configuration;
+using Microsoft.Data.Sqlite;
 
 namespace UdpChat
 {
@@ -35,10 +40,17 @@ namespace UdpChat
             host.Dispose();
             _host = null;
         }
-
+        
         public static void ConfigureServices(HostBuilderContext host, IServiceCollection services)
         {
+            
             services.AddSingleton<MainWindowViewModel>();
+
+            String? connectionString = host.Configuration.GetConnectionString("SqlLite");
+            SqliteConnection connection = new(connectionString);
+            services.AddDbContext<DataContext>(options => options
+            .UseSqlite(connection));
+            
         }
 
         public static string? CurrentDirectory => IsDesignMode

@@ -6,6 +6,7 @@
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:local="clr-namespace:UdpChat.View.Windows"
         xmlns:vm="clr-namespace:UdpChat.ViewModels"
+        DataContext="{Binding MainWindowViewModel, Source={StaticResource Locator}}"
         mc:Ignorable="d"
         Title="Contacts" WindowStyle="None" Height="550" Width="400" MaxHeight="550" MaxWidth="400" MinHeight="550" MinWidth="400">
     <!--<Window.DataContext>
@@ -71,35 +72,6 @@
                         <VirtualizingStackPanel/>
                     </ItemsPanelTemplate>
                 </ListBox.ItemsPanel>
-                <!--<ListBox.ItemTemplate>
-                <DataTemplate>
-                   
-                       
-                    <Grid Grid.Column="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="40"/>
-                            <ColumnDefinition Width="1*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid Grid.Column="1" HorizontalAlignment="Stretch">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="20"/>
-                                <RowDefinition Height="20"/>
-                            </Grid.RowDefinitions>
-                            <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="3,0,0,0" >
-                                <TextBlock Text="{Binding Name}" FontSize="14" Margin="0,0,2,0" FontWeight="DemiBold"  />
-                                <TextBlock Text="{Binding Surname}" FontSize="14" FontWeight="DemiBold"/>
-                            </StackPanel>
-                            <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Left" Margin="3,0,0,0" >
-                                <TextBlock Text="{Binding IpAddress}" FontSize="14" Margin="0,0,2,0"/>
-                            </StackPanel>
-                        </Grid>
-
-                        <Rectangle Height="40" Grid.Column="0" Fill="Aqua"/>
-                    </Grid>
-                   
-                </DataTemplate>
-            </ListBox.ItemTemplate>-->
-
         </ListBox>
 
         <StackPanel Grid.Row="3" Orientation="Horizontal" FlowDirection="RightToLeft" Margin="0,0,15,0" >

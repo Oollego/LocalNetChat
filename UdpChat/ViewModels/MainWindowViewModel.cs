@@ -12,15 +12,24 @@ using UdpChat.View.Windows;
 using UdpChat.ViewModels.Base;
 using UdpChat.Data;
 using System.Threading.Tasks;
+using UdpChat.Data.Entities;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 
 namespace UdpChat.ViewModels
 {
     internal class MainWindowViewModel : ViewModel
     {
-
+        private readonly DataContext _dataContext;
         public ObservableCollection<Person> Persons { get; set; }
 
-        public string SendMessageText { get; set; } = null!;
+        public string _sendMessageText;
+        public string SendMessageText
+        {
+            get => _sendMessageText;
+
+            set => Set(ref _sendMessageText, value);
+        }
         // public int ListBoxSelectedIndex { get; set; }
         //public Person SelectedPersonItem { get; set; }
 
@@ -78,7 +87,17 @@ namespace UdpChat.ViewModels
                 contactWindow.ShowDialog();
 
                 if (contactWindow.IsCancel) return;
+                _dataContext.Contacts.Add(new Contact()
+                {
+                    Id = Guid.NewGuid(),
+                    Name = contactWindow.PersonName,
+                    Surname = contactWindow.PersonName,
+                    IpAddress = contactWindow.PersonIpAddress.ToString(),
+                    IsAvatarAdded = false,
+                    NotReadedMessage = 0
 
+                });
+                _dataContext.SaveChangesAsync();
                 Persons.Insert(0, new Person
                 {
                     Name = contactWindow.PersonName,
@@ -106,31 +125,37 @@ namespace UdpChat.ViewModels
         private bool CanCloseWindowCommandExecute(object p) => true;
         private void OnCloseWindowCommandExecuted(object p)
         {
-            FileSerializer fileSerializer = new FileSerializer();
+            //FileSerializer fileSerializer = new FileSerializer();
 
-            fileSerializer.SerializeData(Persons, "../../Persons.dat");
+            //fileSerializer.SerializeData(Persons, "../../Persons.dat");
         }
 
         public ICommand OpenWindowCommand { get; }
         private bool CanOpenWindowCommandExecute(object p) => true;
         private void OnOpenWindowCommandExecuted(object p)
         {
-            UdpServer udpServer = new UdpServer(5554, IPAddress.Parse("127.0.0.1"), 5555);
-            udpServer.PersonCollection = Persons;
+            //UdpServer udpServer = new UdpServer(5554, IPAddress.Parse("127.0.0.1"), 5555);
+            //udpServer.PersonCollection = Persons;
             
-            Task.Run(async() => { await udpServer.WaitMessageAsync(); }) ;
+            //Task.Run(async() => { await udpServer.WaitMessageAsync(); }) ;
         }
 
         public ICommand SendMessageCommand { get; }
         private bool CanSendMessageCommandExecute(object p) => true;
         private async void OnSendMessageCommandExecuted(object p)
         {
-            UdpSender sender = new UdpSender("127.0.0.1", "5555");
-            sender.CurrentIp = "127.0.0.1";
-            if (!(SendMessageText == ""))
-            {
-                await sender.SendMessageAsync(SendMessageText);
-            }
+            Person person = Persons.ElementAt(SelectedPersonItem);
+            Message message = new();
+            message.Text = SendMessageText;
+            message.Date = DateTime.Now;
+            person.Messages.Add(message);
+            SendMessageText = "";
+            //UdpSender sender = new UdpSender("127.0.0.1", "5555");
+            //sender.CurrentIp = "127.0.0.1";
+            //if (!(SendMessageText == ""))
+            //{
+            //    await sender.SendMessageAsync(SendMessageText);
+            //}
         }
         public ICommand EditContactCommand { get; }
         private bool CanEditContactCommandExecute(object p) => true;
@@ -206,19 +231,23 @@ namespace UdpChat.ViewModels
             e.Accepted = false;
 
         }
-        public MainWindowViewModel()
+        public MainWindowViewModel(DataContext dataContext)
         {
+            _dataContext = dataContext;
+            _dataContext.Contacts.LoadAsync().Wait();
+
             #region Commands
             OpenMainSettingsCommand = new LambdaCommand(OnOpenMainSettingsCommandExecuted, CanOpenMainSettingsCommandExecute);
             OpenWindowCommand = new LambdaCommand(OnOpenWindowCommandExecuted, CanOpenWindowCommandExecute);
             SendMessageCommand = new LambdaCommand(OnSendMessageCommandExecuted, CanSendMessageCommandExecute);
             CloseWindowCommand = new LambdaCommand(OnCloseWindowCommandExecuted, CanCloseWindowCommandExecute);
             DeleteContactAditorCommand = new LambdaCommand(OnDeleteContactAditorCommandExecuted, CanDeleteContactAditorCommandExecute);
-            AddContactCommand = new LambdaCommand(OnEditContactCommandExecuted, CanEditContactCommandExecute);
+            //AddContactCommand = new LambdaCommand(OnEditContactCommandExecuted, CanEditContactCommandExecute);
             AddContactCommand = new LambdaCommand(OnAddContactCommandExecuted, CanAddContactCommandExecute);
             OpenContactEditorCommand = new LambdaCommand(OnOpenContactEditorCommandExecuted, CanOpenContactEditorCommandExecute);
             EditContactCommand = new LambdaCommand(OnEditContactCommandExecuted, CanEditContactCommandExecute);
             #endregion
+
             var messages1 = Enumerable.Range(1, 8).Select(i => new Message() { Date = DateTime.Now, Text = $"Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text Text {i}" });
             var messages2 = Enumerable.Range(1, 8).Select(i => new Message() { Date = DateTime.Now, Text = $"Text Text Text Text Text Text Text Text Text Text {i}", IsIncoming = true });
             var messages = messages1.Union(messages2);

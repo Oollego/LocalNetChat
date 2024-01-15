@@ -8,7 +8,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using UdpChat.Models;
 
-namespace UdpChat.Data.ServerUdp
+namespace UdpChat.Data.ServerTCP
 {
     internal class TCPClient
     {

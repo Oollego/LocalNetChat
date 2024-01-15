@@ -14,7 +14,7 @@ namespace UdpChat
         [System.STAThreadAttribute()]
         public static void Main()
         {
-            UdpChat.App app = new UdpChat.App();
+            App app = new App();
             app.InitializeComponent();
             app.Run();
         }
@@ -23,7 +23,7 @@ namespace UdpChat
         {
             var host_builder = Host.CreateDefaultBuilder(Args);
 
-            host_builder.UseContentRoot(App.CurrentDirectory);
+            host_builder.UseContentRoot(App.CurrentDirectory ?? Environment.CurrentDirectory);
             host_builder.ConfigureAppConfiguration((host, cfg) =>
             {
                 cfg.SetBasePath(Environment.CurrentDirectory);
