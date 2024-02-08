@@ -13,13 +13,13 @@ namespace UdpChat.Data.ServerTCP
     internal class TCPServer
     {
         public int Port { get; set; }
-        public Message ClientMessage { get; private set; }
+        public MessageModel ClientMessage { get; private set; }
         public string DirectoryPath { get; set; }
 
         public TCPServer(int port)
         {
             Port = port;
-            ClientMessage = new Message();
+            ClientMessage = new MessageModel();
             DirectoryPath = Directory.GetCurrentDirectory();
         }
 
@@ -61,7 +61,7 @@ namespace UdpChat.Data.ServerTCP
                 // Receive text
                 String JsonText = reader.ReadString();
 
-                if (JsonText != null) { ClientMessage = JsonSerializer.Deserialize<Message>(JsonText) ?? ClientMessage; }
+                if (JsonText != null) { ClientMessage = JsonSerializer.Deserialize<MessageModel>(JsonText) ?? ClientMessage; }
 
                 if (ClientMessage.IsFileAdded == true && !String.IsNullOrEmpty(ClientMessage.FileName))
                 {

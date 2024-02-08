@@ -11,8 +11,8 @@ using UdpChat.Data.Entities;
 namespace UdpChat.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20240112183954_ContactMigration-v3")]
-    partial class ContactMigrationv3
+    [Migration("20240116133943_InitialDb")]
+    partial class InitialDb
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,7 +20,7 @@ namespace UdpChat.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.15");
 
-            modelBuilder.Entity("UdpChat.Data.Entities.Contact", b =>
+            modelBuilder.Entity("UdpChat.Models.ContactModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -44,6 +44,7 @@ namespace UdpChat.Migrations
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Surname")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -51,7 +52,7 @@ namespace UdpChat.Migrations
                     b.ToTable("Contacts");
                 });
 
-            modelBuilder.Entity("UdpChat.Data.Entities.UserMessage", b =>
+            modelBuilder.Entity("UdpChat.Models.MessageModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -88,10 +89,10 @@ namespace UdpChat.Migrations
 
                     b.HasIndex("ContactId");
 
-                    b.ToTable("UserMessages");
+                    b.ToTable("Messages");
                 });
 
-            modelBuilder.Entity("UdpChat.Data.Entities.UserSettings", b =>
+            modelBuilder.Entity("UdpChat.Models.SettingsModel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -129,9 +130,9 @@ namespace UdpChat.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("4dba2944-b8cf-4460-a618-5ea175d3f924"),
+                            Id = new Guid("5c5212ee-0121-4ada-9d66-307d3f811a67"),
                             AvatarFileName = "",
-                            FolderPath = "C:\\Users\\Dasha\\Pictures\\StepTemp\\UdpChat\\UdpChat\\Downloads",
+                            FolderPath = "C:\\Users\\Dasha\\Desktop\\TcpChat\\UdpChat\\Downloads",
                             IsAvatarAdded = false,
                             Name = "UserName",
                             Port = 10000,
@@ -139,9 +140,9 @@ namespace UdpChat.Migrations
                         });
                 });
 
-            modelBuilder.Entity("UdpChat.Data.Entities.UserMessage", b =>
+            modelBuilder.Entity("UdpChat.Models.MessageModel", b =>
                 {
-                    b.HasOne("UdpChat.Data.Entities.Contact", "Contact")
+                    b.HasOne("UdpChat.Models.ContactModel", "Contact")
                         .WithMany("Messages")
                         .HasForeignKey("ContactId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -150,7 +151,7 @@ namespace UdpChat.Migrations
                     b.Navigation("Contact");
                 });
 
-            modelBuilder.Entity("UdpChat.Data.Entities.Contact", b =>
+            modelBuilder.Entity("UdpChat.Models.ContactModel", b =>
                 {
                     b.Navigation("Messages");
                 });

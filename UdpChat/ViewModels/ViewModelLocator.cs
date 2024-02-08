@@ -9,6 +9,6 @@ namespace UdpChat.ViewModels
 {
     internal class ViewModelLocator
     {
-        public MainWindowViewModel MainWindowViewModel => App.Host.Services.GetRequiredService<MainWindowViewModel>();
+        public MainWindowViewModel MainWindowModel => App.Host.Services.GetRequiredService<MainWindowViewModel>();
     }
 }

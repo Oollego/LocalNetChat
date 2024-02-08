@@ -11,6 +11,8 @@ using Microsoft.Extensions.Configuration;
 using System.Configuration;
 using Microsoft.Data.Sqlite;
 
+
+
 namespace UdpChat
 {
     /// <summary>
@@ -40,23 +42,23 @@ namespace UdpChat
             host.Dispose();
             _host = null;
         }
-        
+
         public static void ConfigureServices(HostBuilderContext host, IServiceCollection services)
         {
-            
+
             services.AddSingleton<MainWindowViewModel>();
 
             String? connectionString = host.Configuration.GetConnectionString("SqlLite");
             SqliteConnection connection = new(connectionString);
             services.AddDbContext<DataContext>(options => options
             .UseSqlite(connection));
-            
+
         }
 
         public static string? CurrentDirectory => IsDesignMode
             ? Path.GetDirectoryName(GetSourceCodePath())
             : Environment.CurrentDirectory;
 
-        private static string GetSourceCodePath([CallerFilePath] string Path=null!) => Path;
+        private static string GetSourceCodePath([CallerFilePath] string Path = null!) => Path;
     }
 }

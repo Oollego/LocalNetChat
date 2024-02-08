@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace UdpChat
 {
-    
+
     internal class Program
     {
         [System.STAThreadAttribute()]

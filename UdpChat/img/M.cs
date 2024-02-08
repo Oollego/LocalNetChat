@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace UdpChat.Data.Entities
+namespace UdpChat.img
 {
-    internal class UserMessage
+    internal class M
     {
         public Guid Id { get; set; }
         public DateTime Date { get; set; }
@@ -18,6 +18,6 @@ namespace UdpChat.Data.Entities
         public bool IsIncoming { get; set; }
 
         public Guid ContactId { get; set; }
-        public Contact? Contact { get; set; }
+        public C? Contact { get; set; }
     }
 }

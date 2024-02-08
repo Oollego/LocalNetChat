@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace UdpChat.Migrations
 {
     /// <inheritdoc />
-    public partial class ContactMigration : Migration
+    public partial class InitialDb : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -17,9 +17,9 @@ namespace UdpChat.Migrations
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
                     Name = table.Column<string>(type: "TEXT", nullable: false),
-                    Surname = table.Column<string>(type: "TEXT", nullable: true),
+                    Surname = table.Column<string>(type: "TEXT", nullable: false),
                     IpAddress = table.Column<string>(type: "TEXT", nullable: false),
-                    Avatar = table.Column<byte[]>(type: "BLOB", nullable: false),
+                    Avatar = table.Column<byte[]>(type: "BLOB", nullable: true),
                     IsAvatarAdded = table.Column<bool>(type: "INTEGER", nullable: false),
                     NotReadedMessage = table.Column<int>(type: "INTEGER", nullable: false)
                 },
@@ -36,6 +36,7 @@ namespace UdpChat.Migrations
                     Name = table.Column<string>(type: "TEXT", nullable: false),
                     Surname = table.Column<string>(type: "TEXT", nullable: false),
                     Avatar = table.Column<byte[]>(type: "BLOB", nullable: true),
+                    AvatarFileName = table.Column<string>(type: "TEXT", nullable: false),
                     IsAvatarAdded = table.Column<bool>(type: "INTEGER", nullable: false),
                     FolderPath = table.Column<string>(type: "TEXT", nullable: false),
                     Port = table.Column<int>(type: "INTEGER", nullable: false)
@@ -46,7 +47,7 @@ namespace UdpChat.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserMessages",
+                name: "Messages",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
@@ -61,9 +62,9 @@ namespace UdpChat.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserMessages", x => x.Id);
+                    table.PrimaryKey("PK_Messages", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_UserMessages_Contacts_ContactId",
+                        name: "FK_Messages_Contacts_ContactId",
                         column: x => x.ContactId,
                         principalTable: "Contacts",
                         principalColumn: "Id",
@@ -72,12 +73,12 @@ namespace UdpChat.Migrations
 
             migrationBuilder.InsertData(
                 table: "Settings",
-                columns: new[] { "Id", "Avatar", "FolderPath", "IsAvatarAdded", "Name", "Port", "Surname" },
-                values: new object[] { new Guid("3a55189e-29e5-45b5-80a2-2134c343e033"), null, "C:\\Users\\Dasha\\Pictures\\StepTemp\\UdpChat\\UdpChat", false, "UserName", 10000, "" });
+                columns: new[] { "Id", "Avatar", "AvatarFileName", "FolderPath", "IsAvatarAdded", "Name", "Port", "Surname" },
+                values: new object[] { new Guid("5c5212ee-0121-4ada-9d66-307d3f811a67"), null, "", "C:\\Users\\Dasha\\Desktop\\TcpChat\\UdpChat\\Downloads", false, "UserName", 10000, "" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserMessages_ContactId",
-                table: "UserMessages",
+                name: "IX_Messages_ContactId",
+                table: "Messages",
                 column: "ContactId");
         }
 
@@ -85,10 +86,10 @@ namespace UdpChat.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Settings");
+                name: "Messages");
 
             migrationBuilder.DropTable(
-                name: "UserMessages");
+                name: "Settings");
 
             migrationBuilder.DropTable(
                 name: "Contacts");

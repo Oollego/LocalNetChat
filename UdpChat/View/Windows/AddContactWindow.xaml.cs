@@ -12,7 +12,7 @@ namespace UdpChat.View.Windows
     {
         public string PersonName { get; set; } = null!;
         public string PersonSurname { get; set; } = null!;
-        public IPAddress PersonIpAddress { get; set; } = null!;
+        public string PersonIpAddress { get; set; } = null!;
         public bool IsCancel { get; private set; }
         public AddContactWindow()
         {
@@ -28,7 +28,7 @@ namespace UdpChat.View.Windows
             PersonSurname = TextBoxSurname.Text;
             try
             {
-                PersonIpAddress = IPAddress.Parse(TextBoxIpAddress.Text);
+                PersonIpAddress = TextBoxIpAddress.Text;
             }
             catch (Exception)
             {

@@ -9,7 +9,8 @@
         xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:mod="clr-namespace:UdpChat.Models"
         xmlns:local="clr-namespace:UdpChat"
-        DataContext="{Binding MainWindowViewModel, Source={StaticResource Locator}}"
+         
+        DataContext="{Binding MainWindowModel, Source={StaticResource Locator}}"
         mc:Ignorable="d"
         Title=""  Height="600" Width="1000" AutomationProperties.HelpText="Search">
     <!--<Window.DataContext>
@@ -66,7 +67,7 @@
                     <RowDefinition Height="45"/>
                     <RowDefinition Height="1*"/>
                 </Grid.RowDefinitions>
-                <TextBox Grid.Row="0"  Text="{Binding PersonFiltredText, UpdateSourceTrigger=PropertyChanged}" 
+                <TextBox Grid.Row="0" Text="{Binding PersonFiltredText, UpdateSourceTrigger=PropertyChanged}" 
                          HorizontalAlignment="Stretch" Height="30" FontSize="14" Margin="10,0,10,0" 
                          Background="#FFEEEEEE">
                     <TextBox.Template>
@@ -86,13 +87,20 @@
                             </ResourceDictionary.MergedDictionaries>
                         </ResourceDictionary>
                     </Grid.Resources>
-                    <ListBox  ItemsSource="{Binding PersonViewSource}" 
+                    <ListBox x:Name="MainContactListBox" ItemsSource="{Binding PersonViewSource}" 
                               SelectedItem="{Binding SelectedPerson}" 
                               SelectedIndex="0" 
                               ItemTemplate="{StaticResource ResourceKey=ContactsListTemplate}"
                               VirtualizingPanel.IsContainerVirtualizable="True"
                               VirtualizingPanel.IsVirtualizing="True"
-                              VirtualizingPanel.VirtualizationMode="Recycling">
+                              VirtualizingPanel.VirtualizationMode="Recycling" >
+                       
+                            <!--<i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding MessagesOfContactChangeCommand}" CommandParameter="{Binding ElementName=MainContactListBox, Path=SelectedItem}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>-->
+                        
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <VirtualizingStackPanel/>
@@ -130,12 +138,17 @@
                         </ResourceDictionary>
                     </DockPanel.Resources>
                     <Grid DockPanel.Dock="Left">
-                        <Button Style ="{StaticResource MessageBoxButton}" VerticalAlignment="Bottom" Width="40" Height="40" Margin="5,0,0,0">
+                        <Button Style ="{StaticResource MessageBoxButton}"
+                                Command="{Binding AddAttachmentCommand}"
+                                VerticalAlignment="Bottom" Width="40" 
+                                Height="40" Margin="5,0,0,0">
                            <iconPacks:PackIconModern Kind="PaperclipRotated" Width="25" Height="25" Foreground="Gray"/>
                         </Button>
                      </Grid>
                     <Grid DockPanel.Dock="Right">
-                        <Button Style ="{StaticResource MessageBoxButton}" VerticalAlignment="Bottom"  Width="40" Height="40" Margin="0,0,5,0"  Command="{Binding SendMessageCommand}">
+                        <Button Style ="{StaticResource MessageBoxButton}" VerticalAlignment="Bottom"  Width="40" Height="40" Margin="0,0,5,0"  
+                                Command="{Binding SendMessageCommand}" 
+                                CommandParameter="{Binding ElementName=MainContactListBox, Path=SelectedItem}">
                             <iconPacks:PackIconEntypo Kind="PaperPlane" Width="25" Height="25" Foreground="Gray"/>
                         </Button>
                     </Grid>
@@ -161,7 +174,7 @@
                         </ResourceDictionary.MergedDictionaries>
                     </ResourceDictionary>
                 </Grid.Resources>
-                <ListBox  ItemsSource="{Binding SelectedPerson.Messages}" 
+                <ListBox ItemsSource="{Binding SelectedPerson.Messages}" 
                               HorizontalContentAlignment="Stretch" 
                               ItemTemplate="{StaticResource ListBoxMessages}" 
                               Foreground="#FF8E9E18" >

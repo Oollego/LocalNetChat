@@ -1,27 +1,31 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using UdpChat.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Windows;
 
 namespace UdpChat.Data.Entities
 {
     internal class DataContext : DbContext
     {
-        public DbSet<UserSettings> Settings { get; set; } = null!;
-        public DbSet<Contact> Contacts { get; set; } = null!;
-        public DbSet<UserMessage> UserMessages { get; set; } = null!; 
+
+        public DbSet<SettingsModel> Settings { get; set; } = null!;
+        public DbSet<ContactModel> Contacts { get; set; } = null!;
+        public DbSet<MessageModel> Messages { get; set; } = null!;
+
+        
         public DataContext(DbContextOptions options) : base(options)
         {
-          
-            Database.Migrate();
+           
+           
+                Database.Migrate();
+           
+            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<UserSettings>().HasData(new UserSettings
+            modelBuilder.Entity<SettingsModel>().HasData(new SettingsModel
             {
                 Id = Guid.NewGuid(),
                 Name = "UserName",
@@ -31,16 +35,16 @@ namespace UdpChat.Data.Entities
                 Port = 10000
             });
 
-            modelBuilder.Entity<Contact>().HasData(new Contact
-            {
-               
-                Id = Guid.NewGuid(),
-                Name = "UserName",
-                Surname = "",
-                IpAddress = "127.0.0.1",
-                IsAvatarAdded = false,
-                                
-            });
+            //modelBuilder.Entity<EntityContact>().HasData(new EntityContact
+            //{
+
+            //    Id = Guid.NewGuid(),
+            //    Name = "UserName",
+            //    Surname = "",
+            //    IpAddress = "127.0.0.1",
+            //    IsAvatarAdded = false,
+
+            //});
         }
     }
 }

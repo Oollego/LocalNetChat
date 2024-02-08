@@ -13,8 +13,8 @@ namespace UdpChat.Data.ServerTCP
     internal class TCPClient
     {
         public string FileName { get; set; } = null!;
-        public Message SendingMessage { get; set; }
-        public TCPClient(Message message)
+        public MessageModel SendingMessage { get; set; }
+        public TCPClient(MessageModel message)
         {
             SendingMessage = message;
         }
@@ -34,7 +34,7 @@ namespace UdpChat.Data.ServerTCP
                 using BinaryWriter writer = new BinaryWriter(stream, Encoding.UTF8, true);
 
 
-                String jsonMessage = JsonSerializer.Serialize<Message>(SendingMessage);
+                String jsonMessage = JsonSerializer.Serialize<MessageModel>(SendingMessage);
                 Console.WriteLine(jsonMessage);
                 // Send text
                 writer.Write(jsonMessage);

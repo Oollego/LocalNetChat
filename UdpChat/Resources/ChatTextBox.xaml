@@ -15,10 +15,10 @@
                                     <TextBlock.Style>
                                         <Style>
                                             <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsIncoming}" Value="true">
+                                                <DataTrigger Binding="{Binding IsIncoming}" Value="false">
                                                     <Setter Property="TextBlock.Foreground" Value="#FF6db774"/>
                                                 </DataTrigger>
-                                                <DataTrigger Binding="{Binding IsIncoming}" Value="false">
+                                                <DataTrigger Binding="{Binding IsIncoming}" Value="true">
                                                     <Setter Property="TextBlock.Foreground" Value="#FFa0acb6"/>
                                                 </DataTrigger>
                                             </Style.Triggers>
@@ -34,7 +34,7 @@
         </StackPanel>
        
         <DataTemplate.Triggers>
-            <DataTrigger Binding="{Binding IsIncoming}" Value="true">
+            <DataTrigger Binding="{Binding IsIncoming}" Value="false">
                 <Setter TargetName="MessageTextBox" Property="HorizontalAlignment" Value="Right"/>
                 <Setter TargetName="MessageTextBox" Property="Background" Value="#ffeffdde"/>
             </DataTrigger>
